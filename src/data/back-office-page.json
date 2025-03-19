@@ -1,0 +1,40 @@
+{
+  "slides": [
+    {
+      "id": "1",
+      "title": "Back Office Procedures",
+      "videoSrc": "/videos/person-video-2-square.webm",
+      "videoId": "backOfficeVid1",
+      "paginationTitle": "Back Office\nOverview",
+      "content": [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat hendrerit lacus, ac dictum tortor ullamcorper vel. Fusce posuere augue in pellentesque tincidunt. Praesent euismod nisi vel metus vestibulum, at lacinia arcu tincidunt. Sed vehicula ipsum vitae lectus fermentum, in convallis nunc sagittis. Nullam consectetur odio at eros tincidunt, vitae facilisis enim rutrum. Donec sagittis magna sit amet ex tincidunt, in gravida nulla ultrices.",
+        "Maecenas volutpat blandit aliquam etiam erat velit scelerisque. Pellentesque dignissim enim sit amet venenatis urna cursus eget nunc. Amet consectetur adipiscing elit pellentesque habitant morbi tristique. Facilisis sed odio morbi quis commodo odio aenean sed adipiscing. Ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Sit amet cursus sit amet dictum sit amet justo donec. Eget dolor morbi non arcu risus quis varius quam quisque.",
+        "Vitae congue eu consequat ac felis donec et odio. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Amet mattis vulputate enim nulla aliquet porttitor lacus luctus. Viverra adipiscing at in tellus integer feugiat scelerisque varius. Egestas integer eget aliquet nibh praesent tristique magna. Nec feugiat in fermentum posuere urna nec tincidunt praesent. Morbi tempus iaculis urna id volutpat lacus laoreet non."
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Documentation Process",
+      "videoSrc": "/videos/person-video-4-square.webm",
+      "videoId": "backOfficeVid2",
+      "paginationTitle": "Documentation\nProcess",
+      "content": [
+        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio.",
+        "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium."
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Administrative Tasks",
+      "videoSrc": "/videos/person-video-2-square.webm",
+      "videoId": "backOfficeVid3",
+      "paginationTitle": "Administrative\nTasks",
+      "content": [
+        "Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.",
+        "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+        "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur."
+      ]
+    }
+  ]
+} 

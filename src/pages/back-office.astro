@@ -1,0 +1,10 @@
+---
+import Layout from "@layouts/Layout.astro";
+import ContentSlider from "@components/SliderComponents/ContentSlider.astro";
+
+import pageData from "@data/back-office-page.json";
+---
+
+<Layout title="Back Office">
+  <ContentSlider jsonData={pageData} sectionTitle="Back Office" />
+</Layout> 

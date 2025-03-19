@@ -1,0 +1,65 @@
+---
+// Components
+import Video from '@components/SliderComponents/Video.astro';
+
+// Props interface
+interface Props {
+  webmSrc: string;
+  videoPlayerID: string;
+  slideNumber: string;
+  slideTitle: string;
+}
+
+const { webmSrc, videoPlayerID, slideNumber, slideTitle } = Astro.props;
+---
+
+<div class="slideInner grid grid-cols-2 h-full relative z-[1] pt-34">
+  <div class="infoSection flex items-start justify-center relative z-[2] overflow-y-auto" >
+    <div class="relative p-8 bg-frost backdrop-blur rounded-2xl" style="height: calc(28vw - 2rem);">
+      <div class="title-section bg-gradient-to-r from-opdivo-secondary-600 to-opdivo-secondary-400 rounded-t-2xl p-6 -mx-8 -mt-8 mb-4">
+        <div class="flex items-center gap-4">
+          <span class="slide-number text-4xl font-bold text-opdivo-white w-12 h-12 rounded-full bg-opdivo-accent-500 flex items-center justify-center">{slideNumber}</span>
+          <h2 class="text-2xl font-bold text-opdivo-white">{slideTitle}</h2>
+        </div>
+      </div>
+      <div class="max-w-2xl content-section scrollbar-custom" style="height: calc(100% - 100px); overflow-y: auto;" data-dev-mode="outline">
+        <slot />
+      </div>
+    </div>
+  </div>
+  <div class="videoSection relative flex items-start justify-center z-[2] overflow-hidden">
+    <div class="video-wrapper relative aspect-square w-full z-50 max-w-[800px]" style="height: calc(28vw - 2rem);">
+      <Video
+        webmSrc={webmSrc}
+        videoPlayerID={videoPlayerID}
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Custom styles that can't be handled by Tailwind */
+  .circleEl {
+    display: none;
+  }
+
+  /* Custom scrollbar styles */
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-opdivo-secondary-400) var(--color-opdivo-gray-200);
+  }
+
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: var(--color-opdivo-gray-200);
+    border-radius: 4px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: var(--color-opdivo-secondary-400);
+    border-radius: 4px;
+  }
+</style> 

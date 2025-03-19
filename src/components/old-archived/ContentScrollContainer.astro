@@ -1,0 +1,29 @@
+---
+
+const { scrollbarColor, height } = Astro.props;
+
+---
+
+<div 
+  class="ContentScrollContainer"
+  data-color={scrollbarColor}
+  data-height={height}
+>
+  <div class="innerScroll">
+    <slot/>
+  </div>
+  
+</div>
+
+<style>
+  .ContentScrollContainer{
+    padding: 1vw;
+    height: 100%;
+
+      .innerScroll{
+          padding: 1vw;
+          height: 100%;
+          overflow-y: scroll;
+      }
+  }
+</style>

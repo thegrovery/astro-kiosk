@@ -1,0 +1,42 @@
+---
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+  targetSliderId: string;
+  className?: string;
+  sectionTitle?: string;
+}
+
+const { targetSliderId = "DefaultSlider", sectionTitle = "SECTION_TITLE", className = "" } = Astro.props;
+---
+
+<div class:list={["slider-controls w-[60vw] max-w-full mx-auto flex gap-4 items-center justify-between bg-frost backdrop-blur rounded-full p-2", className]}>
+  <button 
+    id={`${targetSliderId}-prev`}
+    class="prev-button w-18 h-18 rounded-full bg-opdivo-primary-500 shadow-md flex items-center justify-center hover:bg-opdivo-primary-400 transition-colors cursor-pointer"
+    aria-label="Previous slide"
+  >
+    <Icon name="mdi:chevron-left" class="w-12 h-12 text-opdivo-white" />
+  </button>
+
+  <div class="flex-1 text-center text-opdivo-primary-600 text-3xl tracking-wider font-bold">
+    {sectionTitle}
+  </div>
+
+  <button 
+    id={`${targetSliderId}-next`}
+    class="next-button w-18 h-18 rounded-full bg-opdivo-primary-500 shadow-md flex items-center justify-center hover:bg-opdivo-primary-400 transition-colors cursor-pointer"
+    aria-label="Next slide"
+  >
+    <Icon name="mdi:chevron-right" class="w-12 h-12 text-opdivo-white" />
+  </button>
+</div>
+
+<style>
+  .slider-controls .locked {
+    opacity: 0.5 !important;
+    pointer-events: none;
+  }
+</style>
+
+

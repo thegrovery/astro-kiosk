@@ -1,0 +1,545 @@
+---
+// Components
+import SlideLayout from './SlideLayout.astro';
+import ContentSliderControls from './ContentSliderControls.astro';
+import PageNavigationSelector from './PageNavigationSelector.astro';
+import NoticeFooter from '@components/NoticeFooter.astro';
+import ImageLightbox from '@components/ImageLightbox.astro';
+// Props interface
+interface Props {
+  jsonData: {
+    slides: {
+      id: string;
+      title: string;
+      videoSrc: string;
+      videoId: string;
+      content: (string | { 
+        type: 'image'; 
+        src: string; 
+        alt?: string;
+        float?: 'left' | 'right';
+      })[];
+      paginationTitle: string;
+    }[];
+  };
+  sectionTitle?: string;
+  backgroundImage?: string;
+}
+
+const { jsonData, sectionTitle = "Nivolumab + Hyaluronidase", backgroundImage = "/images/welcome-bg.jpg" } = Astro.props;
+const slides = jsonData.slides;
+const totalSlides = slides.length;
+const paginationTitles = slides.map(slide => slide.paginationTitle);
+---
+
+<div 
+  class="ContentSlider relative" 
+  style={`z-index: 10; background-image: url(${backgroundImage}); background-size: cover; background-position: center; background-repeat: no-repeat;`}
+  data-dev-mode="outline"
+>
+  <ContentSliderControls 
+    targetSliderId="ContentSlider"
+    className="absolute top-8 left-1/2 -translate-x-1/2 z-20"
+    sectionTitle={sectionTitle}
+  /> 
+
+  <swiper-container 
+    id={`ContentSlider`}
+    class="subSlider w-full h-full"
+    init="false"
+    allow-touch-move="false"
+    prevent-clicks="false"
+    prevent-clicks-propagation="false"
+    centered-slides="true"
+    nested="true"
+    watch-slides-progress="true"
+    style="z-index: 15;"
+    slides-per-view="1"
+    direction="horizontal"
+    data-pagination-titles={JSON.stringify(paginationTitles)}
+  >
+    {slides.map((slide) => (
+      <swiper-slide data-hash="" data-slide-id={slide.id} style="z-index: 16;">
+        <SlideLayout 
+          webmSrc={slide.videoSrc} 
+          videoPlayerID={slide.videoId}
+          slideNumber={slide.id}
+          slideTitle={slide.title}
+        >
+          <div class="space-y-4 text-lg">
+            {slide.content.map((content) => (
+              typeof content === 'string' ? (
+                <p>{content}</p>
+              ) : (
+                <div class={content.float ? 'inline' : 'block my-6'}>
+                  <img 
+                    src={content.src} 
+                    alt={content.alt || slide.title} 
+                    class={`max-w-full m-8 ${content.float ? `float-${content.float}` : ''} cursor-pointer hover:opacity-90 transition-opacity`}
+                    data-lightbox="true"
+                  />
+                </div>
+              )
+            ))}
+          </div>
+        </SlideLayout>
+      </swiper-slide>
+    ))}
+  </swiper-container>
+
+  <div class="pagination-wrapper absolute bottom-0 left-0 right-0 w-full bg-opdivo-primary-400 z-30 pt-4">
+    <PageNavigationSelector 
+      options={[
+        { label: 'Welcome', value: 'welcome' },
+        { label: 'Consultation', value: 'consultation' },
+        { label: 'Pharmacy', value: 'pharmacy' },
+        { label: 'Back Office', value: 'back-office' },
+        { label: 'Treatment', value: 'treatment' },
+        { label: 'Conclusion', value: 'conclusion' }
+      ]}
+    />
+    <div id="ContentSliderPagination" class="ContentSliderPagination flex justify-center py-8 max-w-[800px] mx-auto"></div>
+    <NoticeFooter />
+  </div>
+
+  <ImageLightbox />
+</div>
+
+<style>
+  .ContentSlider {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .ContentSlider .swiper-slide {
+    width: 100%;
+    height: 100%;
+  }
+  
+</style>
+
+<style is:global>
+  /* Disable pointer events on video containers except for active slide */
+  .video-container {
+    pointer-events: none;
+  }
+
+  .ContentSlider .swiper-slide-active .video-container {
+    pointer-events: auto;
+  }
+
+  /* Global animation timing variables */
+  :root {
+    --line-animation-timing: 0.75s;
+    --line-animation-timing-padded: 1s;
+    --bullet-animation-timing: 0.2s;
+    --bullet-animation-timing-padded: 0.3s;
+  }
+
+  /* Main pagination container */
+  .ContentSliderPagination {
+    width: 100%;
+    min-width: 800px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    z-index: 10000;
+
+    /* Create a wrapper for bullet+line pairs to maintain spacing */
+    .bullet-line-pair {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+    }
+
+    /* Pagination bullet styling */
+    .swiper-pagination-bullet {
+      background-color: var(--color-opdivo-white);
+      color: var(--color-opdivo-gray-600);
+      width: 2em;
+      height: 2em;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      opacity: 1;
+      margin: 0;
+
+      /* Bullet inner container */
+      .bullet-inner {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        overflow: hidden;
+
+        /* Green background circle */
+        .inner-background {
+          background-color: var(--color-opdivo-accent-500);
+          width: 110%;
+          height: 110%;
+          border-radius: 100%;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-150%, -50%);
+          transition: transform var(--bullet-animation-timing) linear;
+          z-index: 2;
+        }
+
+        /* Bullet number */
+        .number {
+          position: relative;
+          z-index: 3;
+          transition: color var(--bullet-animation-timing) linear;
+        }
+      }
+    }
+
+    /* Connecting line styling */
+    .pagination-line {
+      height: 0.5em;
+      background-color: var(--color-opdivo-white);
+      overflow: hidden;
+      position: absolute;
+      margin: 0;
+      top: 50%;
+      transform: translateY(-50%);
+
+      /* Line fill animation element */
+      .line-inner {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: var(--color-opdivo-accent-500);
+        transform: translateX(-101%);
+        transition: transform var(--line-animation-timing) linear;
+      }
+
+      &.active .line-inner {
+        transform: translateX(0);
+      }
+    }
+
+    /* Active bullet states */
+    .swiper-pagination-bullet-active {
+      .bullet-inner {
+        .inner-background {
+          transform: translate(-50%, -50%);
+          transition-delay: var(--line-animation-timing-padded);
+        }
+
+        .number {
+          color: var(--color-opdivo-white);
+          transition-delay: var(--line-animation-timing-padded);
+        }
+      }
+    }
+
+    /* Previously active bullet states */
+    .swiper-pagination-bullet.previously-active {
+      .bullet-inner {
+        .inner-background {
+          transform: translate(-50%, -50%);
+        }
+
+        .number {
+          color: var(--color-opdivo-white);
+        }
+      }
+    }
+  }
+
+  /* Remove the old dynamic line calculations since we're using gap-based sizing */
+  /* Dynamic line length calculations based on number of bullets */
+  .ContentSliderPagination {
+    &[data-bullet-amount="2"],
+    &[data-bullet-amount="3"],
+    &[data-bullet-amount="4"],
+    &[data-bullet-amount="5"],
+    &[data-bullet-amount="6"] {
+      .swiper-pagination-bullet .line {
+        width: calc(4rem * 0.8);
+      }
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(e) {
+    const swiperEl = document.querySelector('#ContentSlider') as any;
+    const prevButton = document.getElementById('ContentSlider-prev') as HTMLButtonElement;
+    const nextButton = document.getElementById('ContentSlider-next') as HTMLButtonElement;
+    const paginationEl = document.getElementById('ContentSliderPagination');
+    
+    // Get pagination titles from data attribute
+    const paginationTitles = JSON.parse(swiperEl.getAttribute('data-pagination-titles') || '[]');
+
+    if (!swiperEl || !prevButton || !nextButton || !paginationEl) {
+      console.error('Required elements not found');
+      return;
+    }
+
+    // Get total number of slides
+    const totalSlides = swiperEl.querySelectorAll('swiper-slide').length;
+    
+    // Set the bullet amount for line length calculations
+    paginationEl.setAttribute('data-bullet-amount', totalSlides.toString());
+
+    const params = {
+      pagination: {
+        el: '#ContentSliderPagination',
+        clickable: true,
+        renderBullet: function (index: number, className: string) {
+          const isFirst = index === 0;
+          const isLast = index === (totalSlides - 1);
+          const bulletType = isFirst ? 'first' : isLast ? 'last' : 'normal';
+          const paginationTitle = paginationTitles[index] || '';
+          
+          // Create bullet HTML
+          const bullet = `
+            <div class="bullet-wrapper flex flex-col items-center">
+              <span class="${className}" 
+                    data-key="${index}"
+                    data-bullet-type="${bulletType}"
+                    data-z-index="${index + 1}">
+                <span class="bullet-inner">
+                  <span class="inner-background"></span>
+                  <span class="number">${index + 1}</span>
+                </span>
+              </span>
+              <span class="bullet-text text-white text-sm mt-2 whitespace-pre-line text-center">${paginationTitle}</span>
+            </div>
+          `;
+
+          // Add connecting line after bullet (except for last bullet)
+          return !isLast ? `<div class="bullet-line-pair">${bullet}<div class="pagination-line"><span class="line-inner"></span></div></div>` : `<div class="bullet-line-pair">${bullet}</div>`;
+        },
+      },
+      navigation: {
+        nextEl: '#ContentSlider-next',
+        prevEl: '#ContentSlider-prev',
+      },
+      on: {
+        init: function() {
+          console.log('Swiper initialized');
+          // Wait for next tick to ensure Swiper is fully initialized
+          setTimeout(() => {
+            updatePaginationState(0);
+            updateNavigationState();
+            // Force check beginning state
+            if (swiperEl.swiper.isBeginning) {
+              prevButton.classList.add('locked');
+            }
+          }, 0);
+        },
+        slideChange: function() {
+          console.log('Slide changed to:', this.activeIndex);
+          updatePaginationState(this.activeIndex);
+          updateNavigationState();
+        },
+        reachBeginning: function() {
+          updateNavigationState();
+        },
+        reachEnd: function() {
+          updateNavigationState();
+        }
+      }
+    };
+
+    Object.assign(swiperEl, params);
+    swiperEl.initialize();
+
+    function updateNavigationState() {
+      if (!swiperEl.swiper) return;
+      
+      if (swiperEl.swiper.isBeginning) {
+        prevButton.classList.add('locked');
+      } else {
+        prevButton.classList.remove('locked');
+      }
+
+      if (swiperEl.swiper.isEnd) {
+        nextButton.classList.add('locked');
+      } else {
+        nextButton.classList.remove('locked');
+      }
+    }
+
+    function updateLineWidths() {
+      if (!paginationEl) return;
+
+      // Get total width of pagination container
+      const containerWidth = paginationEl.offsetWidth;
+      
+      // Get all bullets and lines
+      const bullets = Array.from(paginationEl.querySelectorAll('.swiper-pagination-bullet')) as HTMLElement[];
+      const lines = Array.from(paginationEl.querySelectorAll('.pagination-line')) as HTMLElement[];
+      
+      // Calculate base measurements
+      const bulletCount = bullets.length;
+      const lineCount = lines.length;
+      const bulletWidth = bullets[0]?.offsetWidth || 32;
+      
+      // Calculate spacing
+      const totalBulletsWidth = bulletWidth * bulletCount;
+      const availableSpace = containerWidth - totalBulletsWidth;
+      const spaceBetweenBullets = availableSpace / (bulletCount - 1);
+      const lineWidth = spaceBetweenBullets * 0.65; // 65% of space between bullets
+      
+      // Calculate and apply position and width for each line
+      lines.forEach((line, index) => {
+        // Set width
+        line.style.width = `${lineWidth}px`;
+        
+        // Calculate position
+        const currentBullet = bullets[index];
+        const nextBullet = bullets[index + 1];
+        if (currentBullet && nextBullet) {
+          const bulletWidth = currentBullet.offsetWidth;
+          const lineLeft = bulletWidth + (spaceBetweenBullets - lineWidth) / 2;
+          line.style.left = `${lineLeft}px`;
+        }
+      });
+    }
+
+    // Call updateLineWidths after initialization and on window resize
+    setTimeout(() => {
+      updateLineWidths();
+    }, 0);
+
+    // Debounce the resize handler to improve performance
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateLineWidths, 100);
+    });
+
+    function updatePaginationState(activeIndex: number) {
+      console.log('Updating pagination state for activeIndex:', activeIndex);
+      const bullets = paginationEl?.querySelectorAll('.swiper-pagination-bullet');
+      const lines = paginationEl?.querySelectorAll('.pagination-line');
+      console.log('Found bullets:', bullets?.length);
+
+      bullets?.forEach((bullet, index) => {
+        const wasActive = bullet.classList.contains('previously-active');
+        const isActive = bullet.classList.contains('swiper-pagination-bullet-active');
+        console.log(`Bullet ${index}:`, {
+          wasActive,
+          isActive,
+          shouldBeActive: index <= activeIndex
+        });
+
+        if (index <= activeIndex) {
+          bullet.classList.add('previously-active');
+          console.log(`Added previously-active to bullet ${index}`);
+        } else {
+          bullet.classList.remove('previously-active');
+          console.log(`Removed previously-active from bullet ${index}`);
+        }
+      });
+
+      // Update line states
+      lines?.forEach((line, index) => {
+        if (index < activeIndex) {
+          line.classList.add('active');
+        } else {
+          line.classList.remove('active');
+        }
+      });
+
+      // Debug check after update
+      bullets?.forEach((bullet, index) => {
+        console.log(`Final state bullet ${index}:`, {
+          hasActive: bullet.classList.contains('swiper-pagination-bullet-active'),
+          hasPrevious: bullet.classList.contains('previously-active')
+        });
+      });
+
+      // Update line widths after updating pagination state
+      updateLineWidths();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Preload high-res versions of all lightbox images
+    const preloadHighResImages = () => {
+      const lightboxImages = document.querySelectorAll('img[data-lightbox="true"]');
+      console.log(`Starting to preload high-res versions for ${lightboxImages.length} images...`);
+      
+      // Create a Map to store successfully loaded high-res versions
+      const loadedHighResVersions = new Map();
+      
+      lightboxImages.forEach((img: HTMLImageElement) => {
+        const baseSrc = img.src;
+        const ext = baseSrc.substring(baseSrc.lastIndexOf('.'));
+        const basePathWithoutExt = baseSrc.substring(0, baseSrc.lastIndexOf('.'));
+        
+        // Preload @2x and @3x versions
+        ['@2x', '@3x'].forEach(suffix => {
+          const highResSrc = `${basePathWithoutExt}${suffix}${ext}`;
+          const preloadImg = new Image();
+          
+          preloadImg.onload = () => {
+            console.log(`✓ Loaded ${suffix} version:`, highResSrc);
+            // Store the successfully loaded high-res version
+            loadedHighResVersions.set(baseSrc + suffix, highResSrc);
+          };
+          
+          preloadImg.onerror = () => {
+            console.log(`✗ Failed to load ${suffix} version:`, highResSrc);
+          };
+          
+          console.log(`⟳ Started loading ${suffix} version:`, highResSrc);
+          preloadImg.src = highResSrc;
+        });
+      });
+
+      return loadedHighResVersions;
+    };
+
+    // Run preloader and store the Map of loaded versions
+    const loadedHighResVersions = preloadHighResImages();
+
+    // Initialize lightbox
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImg = document.getElementById('imageLightbox-image') as HTMLImageElement;
+    const lightboxContent = lightbox?.querySelector('.lightbox-content');
+
+    if (!lightbox || !lightboxImg || !lightboxContent) return;
+
+    // Add click handler to each image
+    const lightboxImages = document.querySelectorAll('img[data-lightbox="true"]');
+    lightboxImages.forEach((img: HTMLImageElement) => {
+      img.addEventListener('click', () => {
+        const baseSrc = img.src;
+        
+        // Try to get the highest resolution version that was successfully preloaded
+        const highRes3x = loadedHighResVersions.get(baseSrc + '@3x');
+        const highRes2x = loadedHighResVersions.get(baseSrc + '@2x');
+        
+        // Use the highest resolution version available
+        lightboxImg.src = highRes3x || highRes2x || baseSrc;
+        lightboxImg.alt = img.alt;
+        
+        lightbox.style.display = 'flex';
+        lightbox.offsetHeight; // Force reflow
+        lightbox.classList.remove('pointer-events-none', 'opacity-0');
+        requestAnimationFrame(() => {
+          lightboxContent.classList.remove('opacity-0', 'translate-y-4');
+        });
+      });
+    });
+  });
+</script>

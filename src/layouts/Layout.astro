@@ -1,0 +1,173 @@
+---
+import { SEO } from "astro-seo";
+import Footer from "@components/footer.astro";
+import Navbar from "@components/navbar/navbar.astro";
+import OptionsToggle from "@components/OptionsToggle.astro";
+import OptionsMenu from "@components/OptionsMenu.astro";
+
+
+
+//Custom CSS
+import "@fontsource-variable/inter/index.css";
+import "@fontsource-variable/bricolage-grotesque";
+import "../styles/global.css";
+
+
+export interface Props {
+  title: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+
+const resolvedImageWithDomain = new URL(
+  "/opengraph.jpg",
+  Astro.site
+).toString();
+
+const { title } = Astro.props;
+
+const makeTitle = title
+  ? title + " | " + "OPDIVO SCORM"
+  : "Astroship - Starter Template for Astro with Tailwind CSS";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
+    <SEO
+      title={makeTitle}
+      description="Astroship is a starter website template for Astro built with TailwindCSS."
+      canonical={canonicalURL}
+      twitter={{
+        creator: "@surjithctly",
+        site: "@web3templates",
+        card: "summary_large_image",
+      }}
+      openGraph={{
+        basic: {
+          url: canonicalURL,
+          type: "website",
+          title: `Astroship - Starter Template for Astro`,
+          image: resolvedImageWithDomain,
+        },
+        image: {
+          alt: "Astroship Homepage Screenshot",
+        },
+      }}
+    />
+  </head>
+  <body>
+    <!-- <Navbar /> -->
+    <slot />
+    <div id="options-components" class="hidden">
+      <OptionsToggle />
+      <OptionsMenu />
+    </div>
+    <!-- <Footer /> -->
+    <style is:global>
+      /* Improve Page speed */
+      /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
+      img {
+        content-visibility: auto;
+      }
+
+
+
+    </style>
+
+    <script>
+      console.log('Layout.astro script: Starting initialization');
+      
+      // Initialize Swiper instances after the component mounts
+      document.addEventListener('astro:page-load', () => {
+        console.log('Layout.astro: astro:page-load event fired');
+        const swipers = document.querySelectorAll('swiper-container');
+        console.log('Layout.astro: Found swiper containers:', swipers.length);
+        
+        swipers.forEach((swiperEl, index) => {
+          console.log(`Layout.astro: Configuring swiper ${index}:`, {
+            id: swiperEl.id,
+            class: swiperEl.className
+          });
+
+          // Get the component's parameters
+          const params = {
+            slidesPerView: 1,
+            navigation: true,
+            pagination: { clickable: true },
+            injectStyles: [`
+              .swiper-button-next,
+              .swiper-button-prev {
+                background-color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                color: black;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+              }
+            `],
+          };
+
+          try {
+            // Assign parameters and initialize
+            Object.assign(swiperEl, params);
+            console.log(`Layout.astro: Parameters assigned to swiper ${index}`);
+            swiperEl.initialize();
+            console.log(`Layout.astro: Swiper ${index} initialized`);
+          } catch (error) {
+            console.error(`Layout.astro: Error initializing swiper ${index}:`, error);
+          }
+        });
+      });
+
+      // Also listen for DOMContentLoaded just in case
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('Layout.astro: DOMContentLoaded event fired');
+      });
+
+      // Options visibility logic
+      function checkOptionsAccess() {
+        // Check URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasOptionsParam = urlParams.has('options');
+        
+        // Check session storage
+        const optionsEnabled = sessionStorage.getItem('optionsEnabled');
+        
+        // If URL has options parameter, enable and store in session
+        if (hasOptionsParam) {
+          sessionStorage.setItem('optionsEnabled', 'true');
+          return true;
+        }
+        
+        // Return stored preference
+        return optionsEnabled === 'true';
+      }
+
+      function updateOptionsVisibility() {
+        const optionsComponents = document.getElementById('options-components');
+        if (optionsComponents) {
+          if (checkOptionsAccess()) {
+            optionsComponents.classList.remove('hidden');
+          } else {
+            optionsComponents.classList.add('hidden');
+          }
+        }
+      }
+
+      // Run on initial load
+      document.addEventListener('astro:page-load', updateOptionsVisibility);
+      
+      // Run immediately in case we're not navigating
+      updateOptionsVisibility();
+    </script>
+  </body>
+</html>

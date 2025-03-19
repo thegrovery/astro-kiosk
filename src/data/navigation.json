@@ -1,0 +1,34 @@
+{
+  "mainNavigation": [
+    {
+      "label": "Welcome",
+      "value": "welcome",
+      "path": "/"
+    },
+    {
+      "label": "Consultation",
+      "value": "consultation",
+      "path": "/consultation"
+    },
+    {
+      "label": "Pharmacy",
+      "value": "pharmacy",
+      "path": "/pharmacy"
+    },
+    {
+      "label": "Back Office",
+      "value": "back-office",
+      "path": "/back-office"
+    },
+    {
+      "label": "Treatment",
+      "value": "treatment",
+      "path": "/treatment"
+    },
+    {
+      "label": "Conclusion",
+      "value": "conclusion",
+      "path": "/conclusion"
+    }
+  ]
+} 

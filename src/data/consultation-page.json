@@ -1,0 +1,59 @@
+{
+  "slides": [
+    {
+      "id": "1",
+      "title": "Consultation Overview",
+      "videoSrc": "/videos/person-video-2-square.webm",
+      "videoId": "consultationVid1",
+      "paginationTitle": "Initial\nConsultation",
+      "content": [
+        
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque elementum efficitur non sodales id orci ac et. Hac volutpat proin proin egestas magna. Mus pellentesque placerat augue metus orci; ex ipsum quis. Platea etiam consequat elit feugiat cras; malesuada quam rutrum. Pretium habitasse nam velit ridiculus purus fringilla aliquam.",
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque elementum efficitur non sodales id orci ac et. Hac volutpat proin proin egestas magna. Mus pellentesque placerat augue metus orci; ex ipsum quis. Platea etiam consequat elit feugiat cras; malesuada quam rutrum. Pretium habitasse nam velit ridiculus purus fringilla aliquam.",
+        { 
+          "type": "image", 
+          "src": "/images/consultation-slide1.png", 
+          "alt": "Consultation Overview",
+          "float": "right"
+        },
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque elementum efficitur non sodales id orci ac et. Hac volutpat proin proin egestas magna. Mus pellentesque placerat augue metus orci; ex ipsum quis. Platea etiam consequat elit feugiat cras; malesuada quam rutrum. Pretium habitasse nam velit ridiculus purus fringilla aliquam."
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Treatment Schedule",
+      "videoSrc": "/videos/person-video-4-square.webm",
+      "videoId": "page1Vid2",
+      "paginationTitle": "Schedule &\nTiming",
+      "content": [
+        { 
+          "type": "image", 
+          "src": "/images/consultation-slide2.png", 
+          "alt": "Treatment Schedule Information",
+          "float": "right"
+        },
+        "Eros elit sodales torquent velit tempor vivamus. Fusce platea mattis litora mus egestas donec volutpat per pellentesque. Tincidunt cras faucibus luctus nisl efficitur ligula integer. Nec fusce viverra congue primis ad sociosqu quis. Luctus class accumsan praesent ullamcorper montes tincidunt posuere fermentum.",
+        "Eros elit sodales torquent velit tempor vivamus. Fusce platea mattis litora mus egestas donec volutpat per pellentesque. Tincidunt cras faucibus luctus nisl efficitur ligula integer. Nec fusce viverra congue primis ad sociosqu quis. Luctus class accumsan praesent ullamcorper montes tincidunt posuere fermentum.",
+        "Eros elit sodales torquent velit tempor vivamus. Fusce platea mattis litora mus egestas donec volutpat per pellentesque. Tincidunt cras faucibus luctus nisl efficitur ligula integer. Nec fusce viverra congue primis ad sociosqu quis. Luctus class accumsan praesent ullamcorper montes tincidunt posuere fermentum."
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Managing Side Effects",
+      "videoSrc": "/videos/person-video-2-square.webm",
+      "videoId": "page1Vid3",
+      "paginationTitle": "Side Effect\nManagement",
+      "content": [
+        { 
+          "type": "image", 
+          "src": "/images/consultation-slide3.png", 
+          "alt": "Side Effects Management Guide",
+          "float": "right"
+        },
+        "Lobortis dolor lacinia ultricies, elit magnis potenti venenatis. Mus sociosqu porta parturient ante purus himenaeos. Curae congue maximus nam suspendisse enim, vitae luctus imperdiet habitasse. Felis maecenas dignissim aenean diam suspendisse pulvinar venenatis.",
+        "Lobortis dolor lacinia ultricies, elit magnis potenti venenatis. Mus sociosqu porta parturient ante purus himenaeos. Curae congue maximus nam suspendisse enim, vitae luctus imperdiet habitasse. Felis maecenas dignissim aenean diam suspendisse pulvinar venenatis.",
+        "Lobortis dolor lacinia ultricies, elit magnis potenti venenatis. Mus sociosqu porta parturient ante purus himenaeos. Curae congue maximus nam suspendisse enim, vitae luctus imperdiet habitasse. Felis maecenas dignissim aenean diam suspendisse pulvinar venenatis."
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,10 @@
+---
+import Layout from "@layouts/Layout.astro";
+import ContentSlider from "@components/SliderComponents/ContentSlider.astro";
+
+import pageData from "@data/treatment-page.json";
+---
+
+<Layout title="Treatment">
+  <ContentSlider jsonData={pageData} sectionTitle="Nivolumab + Hyaluronidase" />
+</Layout> 

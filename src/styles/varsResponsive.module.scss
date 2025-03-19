@@ -1,0 +1,32 @@
+/* ==================================================
+	VARS File
+
+	Description:	Store SCSS vars here
+================================================== */
+
+/* =================== */
+/* ===== Imports ===== */
+/* =================== */
+
+	@import "@styles/vars.module.scss";
+
+
+/* ===== ============= ===== */
+/* ===== Font Settings ===== */
+/* ===== ============= ===== */
+
+	/***** Scaled Font Sizes *****/
+		$fontScale: 1vw; //Font is calculated as 1% of screen width
+		$fontSizeHeading:	calc(2.75 * #{$fontScale});
+		$fontSizeSubhead:	calc(2 * #{$fontScale});
+		$fontSizeBody:		calc(1.5 * #{$fontScale});
+		$fontSizeBodySmall:	calc(1.25 * #{$fontScale});
+		$fontSizeDetail:	calc(0.75 * #{$fontScale});
+		//FUNCTION: round up 
+		//$fontSizeHeading: round($fontSizeHeading);
+		//$fontSizeBody: round($fontSizeBody);
+
+
+
+
+

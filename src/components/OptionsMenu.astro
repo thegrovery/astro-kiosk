@@ -1,0 +1,186 @@
+---
+import QRCodeModal from './QRCodeModal.astro';
+---
+
+<div
+  id="options-menu"
+  class="fixed top-0 right-0 h-full w-64 bg-frost backdrop-blur shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-40"
+>
+  <div class="p-6">
+    <h2 class="text-xl font-bold mb-6 text-opdivo-accent-500">Test Options</h2>
+    
+    <div class="divide-y divide-gray-200/30">
+      <button
+        id="toggle-fullscreen-btn"
+        class="group relative w-full text-left px-4 py-3 font-medium cursor-pointer overflow-hidden transition-colors duration-300"
+      >
+        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Toggle Fullscreen</span>
+        <div class="absolute inset-0 bg-opdivo-accent-500 transform translate-x-full transition-transform duration-300 group-hover:translate-x-0"></div>
+      </button>
+
+      <button
+        id="copy-link-btn"
+        class="group relative w-full text-left px-4 py-3 font-medium cursor-pointer overflow-hidden transition-colors duration-300"
+      >
+        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Copy Page Link</span>
+        <div class="absolute inset-0 bg-opdivo-accent-500 transform translate-x-full transition-transform duration-300 group-hover:translate-x-0"></div>
+      </button>
+      
+      <button
+        id="generate-qr-btn"
+        class="group relative w-full text-left px-4 py-3 font-medium cursor-pointer overflow-hidden transition-colors duration-300"
+      >
+        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">QR Code for Mobile</span>
+        <div class="absolute inset-0 bg-opdivo-accent-500 transform translate-x-full transition-transform duration-300 group-hover:translate-x-0"></div>
+      </button>
+
+      <button
+        id="screen-size-btn"
+        class="group relative w-full text-left px-4 py-3 font-medium cursor-pointer overflow-hidden transition-colors duration-300"
+      >
+        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Screen Size Detect</span>
+        <div class="absolute inset-0 bg-opdivo-accent-500 transform translate-x-full transition-transform duration-300 group-hover:translate-x-0"></div>
+      </button>
+
+      <button
+        id="browser-info-btn"
+        class="group relative w-full text-left px-4 py-3 font-medium cursor-pointer overflow-hidden transition-colors duration-300"
+      >
+        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Browser Info Detect</span>
+        <div class="absolute inset-0 bg-opdivo-accent-500 transform translate-x-full transition-transform duration-300 group-hover:translate-x-0"></div>
+      </button>
+
+      <button
+        id="disable-options-btn"
+        class="group relative w-full text-left px-4 py-3 font-medium cursor-pointer overflow-hidden transition-colors duration-300"
+      >
+        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Turn Off Options Menu</span>
+        <div class="absolute inset-0 bg-opdivo-accent-500 transform translate-x-full transition-transform duration-300 group-hover:translate-x-0"></div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<QRCodeModal url={Astro.url.href} />
+
+<script>
+  const copyLinkBtn = document.getElementById('copy-link-btn');
+  const fullscreenBtn = document.getElementById('toggle-fullscreen-btn');
+  const qrBtn = document.getElementById('generate-qr-btn');
+  const screenSizeBtn = document.getElementById('screen-size-btn');
+  const browserInfoBtn = document.getElementById('browser-info-btn');
+  const disableOptionsBtn = document.getElementById('disable-options-btn');
+
+  // Browser Info Detection functionality
+  browserInfoBtn?.addEventListener('click', () => {
+    // Function to detect browser name and version
+    const getBrowserInfo = () => {
+      const userAgent = navigator.userAgent;
+      let browserName = "Unknown";
+      let browserVersion = "Unknown";
+      
+      // Detect Chrome
+      if (userAgent.match(/chrome|chromium|crios/i)) {
+        browserName = "Chrome";
+      } 
+      // Detect Firefox
+      else if (userAgent.match(/firefox|fxios/i)) {
+        browserName = "Firefox";
+      }
+      // Detect Safari
+      else if (userAgent.match(/safari/i)) {
+        browserName = "Safari";
+      }
+      // Detect Edge
+      else if (userAgent.match(/edg/i)) {
+        browserName = "Edge";
+      }
+      // Detect Opera
+      else if (userAgent.match(/opera|opr/i)) {
+        browserName = "Opera";
+      }
+
+      // Extract version number
+      const match = navigator.userAgent.match(/(?:chrome|firefox|safari|opera|edge|msie|rv)[\/: ]([\d.]+)/i);
+      if (match) {
+        browserVersion = match[1];
+      }
+
+      return { name: browserName, version: browserVersion };
+    };
+
+    const browserDetails = getBrowserInfo();
+    const osName = navigator.platform.indexOf('Win') !== -1 ? 'Windows' :
+                  navigator.platform.indexOf('Mac') !== -1 ? 'MacOS' :
+                  navigator.platform.indexOf('Linux') !== -1 ? 'Linux' : 
+                  navigator.platform;
+
+    alert(
+      `Browser Information (best guess):\n\n` +
+      `Browser: ${browserDetails.name} ${browserDetails.version}\n` +
+      `Operating System: ${osName}\n` +
+      `Language: ${navigator.language}\n` +
+      `Cookies Enabled: ${navigator.cookieEnabled ? 'Yes' : 'No'}\n` +
+      `Online Status: ${navigator.onLine ? 'Online' : 'Offline'}\n` +
+      `Do Not Track: ${navigator.doNotTrack ? 'Enabled' : 'Disabled'}\n` +
+      `Touch Support: ${navigator.maxTouchPoints > 0 ? 'Yes' : 'No'}`
+    );
+  });
+
+  // Disable options functionality
+  disableOptionsBtn?.addEventListener('click', () => {
+    sessionStorage.removeItem('optionsEnabled');
+    // Remove the options parameter from URL if present
+    const url = new URL(window.location.href);
+    url.searchParams.delete('options');
+    window.location.href = url.toString();
+  });
+
+  // Copy Link functionality
+  copyLinkBtn?.addEventListener('click', () => {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        alert('Link copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy link:', err);
+      });
+  });
+
+  // Fullscreen functionality
+  fullscreenBtn?.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  });
+
+  // Screen Size Detection functionality
+  screenSizeBtn?.addEventListener('click', () => {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+
+    alert(
+      `Explanation: The viewport is the available viewing space inside the browser window. The full screen size is the actual full size of your computer or phone screen.\n\n` +
+      `Browser Viewport Size:\n` +
+      `- Width: ${viewportWidth}px\n` +
+      `- Height: ${viewportHeight}px\n\n` +
+      `Full Screen Size:\n` +
+      `- Width: ${screenWidth}px\n` +
+      `- Height: ${screenHeight}px`
+    );
+  });
+
+  // QR Code functionality
+  qrBtn?.addEventListener('click', () => {
+    // @ts-ignore
+    window.showQRModal?.();
+  });
+</script> 

@@ -1,0 +1,179 @@
+---
+import navigation from '../../data/navigation.json';
+
+interface Props {
+  defaultValue?: string;
+}
+
+// Get the current path and find the matching navigation item
+const currentPath = Astro.url.pathname;
+const currentNavItem = navigation.mainNavigation.find(item => 
+  // Remove trailing slash for comparison if it exists
+  currentPath.replace(/\/$/, '') === item.path.replace(/\/$/, '')
+);
+
+const { defaultValue = currentNavItem?.value || navigation.mainNavigation[0].value } = Astro.props;
+---
+
+<div class="relative w-full max-w-[300px] mx-auto mb-4" data-navigation-selector>
+  <button 
+    type="button" 
+    class="w-36 max-w-full mx-auto flex items-center justify-between p-2 bg-white rounded-full text-opdivo-gray-600 transition-colors hover:bg-opdivo-gray-200"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    data-selector-trigger
+  >
+    <span class="text-base font-medium flex-1 text-center pr-2" data-selected-value>
+      {navigation.mainNavigation.find(item => item.value === defaultValue)?.label || 'Select Page'}
+    </span>
+    <span class="text-current flex-shrink-0">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </span>
+  </button>
+
+  <div 
+    class="absolute bottom-[calc(100%+0.75rem)] left-0 right-0 bg-white rounded-lg shadow-lg opacity-0 invisible pointer-events-none transform translate-y-2 transition-all duration-200 ease-snappy
+    before:content-[''] 
+    before:absolute 
+    before:-bottom-5 
+    before:left-1/2 
+    before:-translate-x-1/2 
+    before:border-[10px] 
+    before:border-transparent 
+    before:border-t-white 
+    before:drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)]
+    before:z-10"
+    role="listbox"
+    tabindex="-1"
+    data-options-menu
+  >
+    {navigation.mainNavigation.map((item) => (
+      <button
+        role="option"
+        class="w-full text-left p-3 text-opdivo-gray-600 hover:bg-opdivo-primary-400 hover:text-white cursor-pointer transition-colors first:rounded-t-lg last:rounded-b-lg aria-selected:bg-opdivo-gray-200 aria-selected:pointer-events-none"
+        data-value={item.value}
+        data-path={item.path}
+        data-option-item
+        aria-selected={item.value === defaultValue}
+      >
+        {item.label}
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  interface NavigationItem {
+    value: string;
+    label: string;
+    path: string;
+  }
+
+  class PageNavigationSelector {
+    private container: HTMLElement;
+    private trigger: HTMLButtonElement;
+    private menu: HTMLDivElement;
+    private selectedValue: HTMLSpanElement;
+    private options: NodeListOf<HTMLButtonElement>;
+
+    constructor(container: HTMLElement) {
+      this.container = container;
+      this.trigger = container.querySelector('[data-selector-trigger]')!;
+      this.menu = container.querySelector('[data-options-menu]')!;
+      this.selectedValue = container.querySelector('[data-selected-value]')!;
+      this.options = container.querySelectorAll('[data-option-item]');
+
+      if (!this.trigger || !this.menu || !this.selectedValue) {
+        console.error('Required elements not found');
+        return;
+      }
+
+      this.init();
+    }
+
+    private init(): void {
+      this.trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggleMenu();
+      });
+
+      this.options.forEach(option => {
+        option.addEventListener('click', () => this.selectOption(option));
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!this.container.contains(e.target as Node)) {
+          this.closeMenu();
+        }
+      });
+
+      this.trigger.addEventListener('keydown', (e) => this.handleKeyboard(e));
+    }
+
+    private toggleMenu(): void {
+      const isExpanded = this.trigger.getAttribute('aria-expanded') === 'true';
+      this.trigger.setAttribute('aria-expanded', (!isExpanded).toString());
+      
+      if (!isExpanded) {
+        this.menu.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-2');
+        this.menu.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+      } else {
+        this.closeMenu();
+      }
+    }
+
+    private closeMenu(): void {
+      this.trigger.setAttribute('aria-expanded', 'false');
+      this.menu.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+      this.menu.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-2');
+    }
+
+    private selectOption(option: HTMLButtonElement): void {
+      const label = option.textContent?.trim() || '';
+      const path = option.dataset.path;
+      
+      this.selectedValue.textContent = label;
+      this.options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
+      option.setAttribute('aria-selected', 'true');
+      
+      this.closeMenu();
+
+      // Navigate to the selected path
+      if (path) {
+        window.location.href = path;
+      }
+    }
+
+    private handleKeyboard(e: KeyboardEvent): void {
+      const isExpanded = this.trigger.getAttribute('aria-expanded') === 'true';
+      
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          this.toggleMenu();
+          break;
+        case 'Escape':
+          if (isExpanded) {
+            e.preventDefault();
+            this.closeMenu();
+          }
+          break;
+        case 'ArrowDown':
+          if (!isExpanded) {
+            e.preventDefault();
+            this.toggleMenu();
+          }
+          break;
+      }
+    }
+  }
+
+  // Initialize all navigation selectors
+  document.addEventListener('DOMContentLoaded', () => {
+    const selectors = document.querySelectorAll('[data-navigation-selector]');
+    selectors.forEach(selector => new PageNavigationSelector(selector as HTMLElement));
+  });
+</script> 

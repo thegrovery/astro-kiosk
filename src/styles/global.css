@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  /* Font settings */
+  --font-sans:
+    Bricolage Grotesque Variable, Inter Variable, Inter, ui-sans-serif,
+    system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+  /* Opdivo Brand Colors */
+  --color-opdivo-accent-300: #F9AC91;  /* Lightest accent */
+  --color-opdivo-accent-400: #F68C60;  /* Light accent */
+  --color-opdivo-accent-500: #F26425;  /* Medium accent */
+  --color-opdivo-accent-600: #D2531C;  /* Dark accent */
+  --color-opdivo-accent-700: #B24417;  /* Darkest accent */
+
+  --color-opdivo-primary-400: #0E7DA0;  /* Light primary */
+  --color-opdivo-primary-500: #0C6480;  /* Medium primary */
+  --color-opdivo-primary-600: #0F4E6D;  /* Dark primary */
+
+  --color-opdivo-secondary-300: #BDCFE2;  /* Lightest secondary */
+  --color-opdivo-secondary-400: #73BBD0;  /* Light secondary */
+  --color-opdivo-secondary-500: #189085;  /* Medium secondary */
+  --color-opdivo-secondary-600: #147693;  /* Dark secondary */
+  --color-opdivo-secondary-700: #0E5973;  /* Darkest secondary */
+
+  --color-opdivo-gray-200: #E5E7EB;  /* Light gray */
+  --color-opdivo-gray-400: #9CA3AF;  /* Medium gray */
+  --color-opdivo-gray-600: #4B5563;  /* Dark gray */
+
+  --color-opdivo-white: #FFFFFF;  /* White */
+  --color-bms-purple: #BE2BB8;    /* BMS Purple */
+  --color-bms-gray: #595454;      /* BMS Gray */
+
+  /* Gradients */
+  --gradient-opdivo-secondary: linear-gradient(90deg, var(--color-opdivo-secondary-600) 0%, var(--color-opdivo-secondary-400) 100%);
+
+  /* UI Effect Colors */
+  --color-frost: rgba(250, 250, 250, 0.85);  /* Frosted glass effect */
+  --color-frost-dark: rgba(0, 0, 0, 0.85);  /* Frosted glass effect */
+  --color-frost-blue: rgba(15, 78, 109, 0.85);  /* Frosted glass effect */
+  --color-shadow: rgba(23, 23, 23, 0.1);     /* Subtle shadow */
+
+  /* Animation Timing */
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Breakpoints */
+  --breakpoint-3xl: 1920px;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-neutral-200, currentColor);
+  }
+}
+
+/* [data-dev-mode="outline"] {
+  border: 5px dashed rgb(0, 255, 255);
+} */

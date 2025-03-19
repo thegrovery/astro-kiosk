@@ -1,0 +1,165 @@
+---
+// Components
+import { Icon } from "astro-icon/components";
+
+// Props interface
+interface Props {
+  videoPlayerID: string;
+  webmSrc?: string;
+  mp4Src?: string;
+  errorMessage?: string;
+}
+
+const { 
+  videoPlayerID,
+  webmSrc,
+  mp4Src,
+  errorMessage = "Video format not supported or file not found."
+} = Astro.props;
+
+console.log('Video sources:', { webmSrc, mp4Src });
+---
+
+<div class="video-container relative w-full h-full aspect-square bg-transparent overflow-visible pointer-events-none">
+  <video 
+    id={videoPlayerID}
+    class="video-player w-full h-full object-contain cursor-pointer"
+    playsinline
+    data-dev-mode="outline"
+  >
+    {webmSrc && <source src={webmSrc} type="video/webm" />}
+    {mp4Src && <source src={mp4Src} type="video/mp4" />}
+    <p>{errorMessage}</p>
+  </video>
+  
+  <button class="play-overlay absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-opdivo-primary-600 hover:bg-opdivo-primary-500 border-none rounded-full w-16 h-16 cursor-pointer flex items-center justify-center transition-colors z-10">
+    <Icon name="mdi:play" class="w-12 h-12 text-white" />
+  </button>
+
+  <div class="controls absolute bottom-0 left-0 right-0 bg-gradient-to-r from-opdivo-secondary-600 to-opdivo-secondary-400 p-5 flex items-center gap-4 z-10">
+    <button class="control-play p-2 rounded-full hover:bg-opdivo-secondary-500/50 transition-colors flex items-center justify-center">
+      <Icon name="mdi:play" class="play-icon w-6 h-6 text-white" />
+      <Icon name="mdi:pause" class="pause-icon hidden w-6 h-6 text-white" />
+    </button>
+    
+    <div class="timeline flex-1 flex items-center gap-3">
+      <div class="time current text-white text-sm min-w-[45px]">0:00</div>
+      <div class="progress-bar flex-1 h-1 bg-opdivo-secondary-300/30 rounded cursor-pointer relative">
+        <div class="progress absolute left-0 top-0 h-full bg-white rounded"></div>
+      </div>
+      <div class="time duration text-white text-sm min-w-[45px]">0:00</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Only enable pointer events when the video is in an active slide */
+  :global(.swiper-slide-active) .video-container {
+    pointer-events: auto;
+  }
+
+  /* Control visibility animations */
+  .controls {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .video-container:hover .controls {
+    opacity: 1;
+  }
+
+  /* State classes */
+  .playing .play-overlay {
+    display: none;
+  }
+  
+  .playing .play-icon {
+    display: none;
+  }
+  
+  .playing .pause-icon {
+    display: block;
+  }
+
+  /* Progress bar width animation */
+  .progress {
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const containers = document.querySelectorAll('.video-container');
+    
+    containers.forEach(container => {
+      if (!(container instanceof HTMLElement)) return;
+
+      const video = container.querySelector('video');
+      const playOverlay = container.querySelector('.play-overlay');
+      const controlPlay = container.querySelector('.control-play');
+      const progressBar = container.querySelector('.progress-bar');
+      const progress = container.querySelector('.progress');
+      const currentTime = container.querySelector('.time.current');
+      const duration = container.querySelector('.time.duration');
+      
+      if (!video || !playOverlay || !controlPlay || !progressBar || !progress || !currentTime || !duration ||
+          !(progressBar instanceof HTMLElement) || !(progress instanceof HTMLElement) ||
+          !(currentTime instanceof HTMLElement) || !(duration instanceof HTMLElement)) {
+        console.error('Required elements not found or invalid types');
+        return;
+      }
+      
+      const videoEl = video as HTMLVideoElement;
+      
+      function formatTime(seconds: number) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+      }
+
+      function togglePlay() {
+        if (videoEl.paused) {
+          videoEl.play();
+          container.classList.add('playing');
+        } else {
+          videoEl.pause();
+          container.classList.remove('playing');
+        }
+      }
+
+      function updateProgress() {
+        if (!videoEl.duration) return;
+        const percent = (videoEl.currentTime / videoEl.duration) * 100;
+        progress.style.width = `${percent}%`;
+        currentTime.textContent = formatTime(videoEl.currentTime);
+      }
+
+      function seek(e: MouseEvent) {
+        const rect = progressBar.getBoundingClientRect();
+        const pos = (e.clientX - rect.left) / rect.width;
+        videoEl.currentTime = pos * videoEl.duration;
+      }
+
+      // Click handlers
+      playOverlay.addEventListener('click', togglePlay);
+      controlPlay.addEventListener('click', togglePlay);
+      videoEl.addEventListener('click', togglePlay);
+      
+      // Progress bar interaction
+      progressBar.addEventListener('click', seek);
+      
+      // Video state handlers
+      videoEl.addEventListener('loadedmetadata', () => {
+        duration.textContent = formatTime(videoEl.duration);
+      });
+      
+      videoEl.addEventListener('timeupdate', updateProgress);
+      
+      videoEl.addEventListener('ended', () => {
+        container.classList.remove('playing');
+        videoEl.currentTime = 0;
+      });
+    });
+  });
+</script> 

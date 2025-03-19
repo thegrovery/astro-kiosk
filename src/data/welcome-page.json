@@ -1,0 +1,54 @@
+{
+  "slides": [
+    {
+      "id": "1",
+      "title": "SLIDE TITLE 1",
+      "videoSrc": "/videos/person-video-2-square.webm",
+      "videoId": "testVid1",
+      "paginationTitle": "IO Therapy\nRecommended",
+      "content": [
+        { 
+          "type": "image", 
+          "src": "/images/welcome-touch.png", 
+          "alt": "Welcome Touch Interface",
+          "float": "right"
+        },
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque elementum efficitur non sodales id orci ac et. Hac volutpat proin proin egestas magna. Mus pellentesque placerat augue metus orci; ex ipsum quis. Platea etiam consequat elit feugiat cras; malesuada quam rutrum. Pretium habitasse nam velit ridiculus purus fringilla aliquam.",
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque elementum efficitur non sodales id orci ac et. Hac volutpat proin proin egestas magna. Mus pellentesque placerat augue metus orci; ex ipsum quis. Platea etiam consequat elit feugiat cras; malesuada quam rutrum. Pretium habitasse nam velit ridiculus purus fringilla aliquam.",
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque elementum efficitur non sodales id orci ac et. Hac volutpat proin proin egestas magna. Mus pellentesque placerat augue metus orci; ex ipsum quis. Platea etiam consequat elit feugiat cras; malesuada quam rutrum. Pretium habitasse nam velit ridiculus purus fringilla aliquam.",
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque elementum efficitur non sodales id orci ac et. Hac volutpat proin proin egestas magna. Mus pellentesque placerat augue metus orci; ex ipsum quis. Platea etiam consequat elit feugiat cras; malesuada quam rutrum. Pretium habitasse nam velit ridiculus purus fringilla aliquam.",
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque elementum efficitur non sodales id orci ac et. Hac volutpat proin proin egestas magna. Mus pellentesque placerat augue metus orci; ex ipsum quis. Platea etiam consequat elit feugiat cras; malesuada quam rutrum. Pretium habitasse nam velit ridiculus purus fringilla aliquam."
+      ]
+    },
+    {
+      "id": "2",
+      "title": "SLIDE TITLE 2",
+      "videoSrc": "/videos/person-video-4-square.webm",
+      "videoId": "testVid2",
+      "paginationTitle": "SC vs. IV\nAdministration",
+      "content": [
+        { 
+          "type": "image", 
+          "src": "/images/welcome-slide2-lockup-image.png", 
+          "alt": "Welcome Slide 2 Lockup",
+          "float": "left"
+        },
+        "Eros elit sodales torquent velit tempor vivamus. Fusce platea mattis litora mus egestas donec volutpat per pellentesque. Tincidunt cras faucibus luctus nisl efficitur ligula integer. Nec fusce viverra congue primis ad sociosqu quis. Luctus class accumsan praesent ullamcorper montes tincidunt posuere fermentum.",
+        "Eros elit sodales torquent velit tempor vivamus. Fusce platea mattis litora mus egestas donec volutpat per pellentesque. Tincidunt cras faucibus luctus nisl efficitur ligula integer. Nec fusce viverra congue primis ad sociosqu quis. Luctus class accumsan praesent ullamcorper montes tincidunt posuere fermentum.",
+        "Eros elit sodales torquent velit tempor vivamus. Fusce platea mattis litora mus egestas donec volutpat per pellentesque. Tincidunt cras faucibus luctus nisl efficitur ligula integer. Nec fusce viverra congue primis ad sociosqu quis. Luctus class accumsan praesent ullamcorper montes tincidunt posuere fermentum."
+      ]
+    },
+    {
+      "id": "3",
+      "title": "SLIDE TITLE 3",
+      "videoSrc": "/videos/person-video-2-square.webm",
+      "videoId": "testVid3",
+      "paginationTitle": "SC Prescription\nIssued",
+      "content": [
+        "Lobortis dolor lacinia ultricies, elit magnis potenti venenatis. Mus sociosqu porta parturient ante purus himenaeos. Curae congue maximus nam suspendisse enim, vitae luctus imperdiet habitasse. Felis maecenas dignissim aenean diam suspendisse pulvinar venenatis.",
+        "Lobortis dolor lacinia ultricies, elit magnis potenti venenatis. Mus sociosqu porta parturient ante purus himenaeos. Curae congue maximus nam suspendisse enim, vitae luctus imperdiet habitasse. Felis maecenas dignissim aenean diam suspendisse pulvinar venenatis.",
+        "Lobortis dolor lacinia ultricies, elit magnis potenti venenatis. Mus sociosqu porta parturient ante purus himenaeos. Curae congue maximus nam suspendisse enim, vitae luctus imperdiet habitasse. Felis maecenas dignissim aenean diam suspendisse pulvinar venenatis."
+      ]
+    }
+  ]
+} 

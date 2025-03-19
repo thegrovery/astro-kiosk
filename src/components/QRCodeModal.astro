@@ -1,0 +1,70 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<div
+  id="qr-modal"
+  class="fixed inset-0 bg-frost backdrop-blur hidden items-center justify-center z-50"
+>
+  <div class="bg-white p-6 rounded-lg shadow-2xl max-w-sm w-full mx-4">
+    <h3 class="text-lg font-bold mb-4 text-opdivo-accent-500 text-center">Scan QR Code To View On Mobile</h3>
+    <div id="qrcode" class="flex justify-center mb-4"></div>
+    <button
+      id="close-qr-modal"
+      class="w-full bg-opdivo-accent-500 text-white py-2 px-4 rounded hover:bg-opdivo-accent-600 transition-colors duration-200 cursor-pointer"
+    >
+      Close
+    </button>
+  </div>
+</div>
+
+<script define:vars={{ url }}>
+  const qrModal = document.getElementById('qr-modal');
+  const closeQrModal = document.getElementById('close-qr-modal');
+  const qrContainer = document.getElementById('qrcode');
+  let qrcode = null;
+
+  function initQRCode() {
+    if (!qrcode && qrContainer) {
+      // Clear any existing content
+      qrContainer.innerHTML = '';
+      
+      qrcode = new QRCode(qrContainer, {
+        text: url,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+  }
+
+  function showModal() {
+    qrModal?.classList.remove('hidden');
+    qrModal?.classList.add('flex');
+    initQRCode();
+  }
+
+  function hideModal() {
+    qrModal?.classList.add('hidden');
+    qrModal?.classList.remove('flex');
+  }
+
+  // Close modal when clicking the close button
+  closeQrModal?.addEventListener('click', hideModal);
+
+  // Close modal when clicking outside
+  qrModal?.addEventListener('click', (e) => {
+    if (e.target === qrModal) {
+      hideModal();
+    }
+  });
+
+  // Expose showModal to window for external access
+  window.showQRModal = showModal;
+</script> 
